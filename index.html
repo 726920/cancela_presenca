@@ -20,22 +20,26 @@
                 return;
             }
 
-            const [nome, sobrenome] = nomeCompleto.split(" ");
+            const [nome, ...sobrenomeArray] = nomeCompleto.split(" ");
+            const sobrenome = sobrenomeArray.join(" ");
 
-            fetch("https://pinheirocelsopy.app.n8n.cloud/webhook/enviar_pagina_cancelamento", {
+            // Criando o objeto JSON a ser enviado
+            const dadosPaciente = {
+                nome: nome,
+                sobrenome: sobrenome,
+                              
+            };
+
+            // Envio dos dados para o Webhook no n8n
+            fetch("https://pinheirocelsopy.app.n8n.cloud/webhook/cancela_presenca", {
                 method: "POST",
                 headers: { "Content-Type": "application/json" },
-                body: JSON.stringify({
-                    nome: nome,
-                    sobrenome: sobrenome,
-                    data_consulta: "{{data_consulta}}"
-                  
-                })
+                body: JSON.stringify(dadosPaciente)
             })
             .then(response => response.json())
             .then(data => {
                 alert("Sua consulta foi cancelada com sucesso.");
-                window.location.href = "https://www.sua-clinica.com.br";
+               
             })
             .catch(error => {
                 console.error("Erro ao notificar:", error);
@@ -47,13 +51,10 @@
 <body>
     <div class="container">
         <h2>Cancelar sua Consulta</h2>
-        <p>Para cancelar, insira seu nome abaixo:</p>
-        <label for="nome">Nome e Ultimo Sobrenome:</label>
+        <p>Para cancelar, insira seu nome completo abaixo:</p>
+        <label for="nome">Nome e Sobrenome:</label>
         <input type="text" id="nome" placeholder="Digite seu nome e sobrenome">
         <button class="btn" onclick="cancelarConsulta()">Cancelar Consulta</button>
     </div>
 </body>
 </html>
-
-
-
