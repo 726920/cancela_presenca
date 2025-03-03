@@ -1,0 +1,56 @@
+<!DOCTYPE html>
+<html lang="pt">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Cancelar Consulta</title>
+    <style>
+        body { font-family: Arial, sans-serif; text-align: center; margin: 50px; }
+        .container { max-width: 600px; margin: auto; padding: 20px; border: 1px solid #ccc; border-radius: 10px; box-shadow: 2px 2px 10px rgba(0,0,0,0.1); }
+        label { font-size: 16px; display: block; margin-bottom: 5px; }
+        input { width: 100%; padding: 8px; margin-bottom: 10px; border: 1px solid #ccc; border-radius: 5px; }
+        .btn { display: inline-block; padding: 10px 20px; color: white; background: red; text-decoration: none; border-radius: 5px; cursor: pointer; }
+    </style>
+    <script>
+        function cancelarConsulta() {
+            const nomeCompleto = document.getElementById("nome").value.trim();
+
+            if (nomeCompleto === "" || !nomeCompleto.includes(" ")) {
+                alert("Por favor, insira seu nome e sobrenome.");
+                return;
+            }
+
+            const [nome, sobrenome] = nomeCompleto.split(" ");
+
+            fetch("https://seuservidor.com/webhook/cancelar_consulta", {
+                method: "POST",
+                headers: { "Content-Type": "application/json" },
+                body: JSON.stringify({
+                    nome: nome,
+                    sobrenome: sobrenome,
+                    data_consulta: "{{data_consulta}}"
+                  
+                })
+            })
+            .then(response => response.json())
+            .then(data => {
+                alert("Sua consulta foi cancelada com sucesso.");
+                window.location.href = "https://www.sua-clinica.com.br";
+            })
+            .catch(error => {
+                console.error("Erro ao notificar:", error);
+                alert("Ocorreu um erro ao cancelar a consulta. Tente novamente.");
+            });
+        }
+    </script>
+</head>
+<body>
+    <div class="container">
+        <h2>Cancelar sua Consulta</h2>
+        <p>Para cancelar, insira seu nome abaixo:</p>
+        <label for="nome">Nome e Ultimo Sobrenome:</label>
+        <input type="text" id="nome" placeholder="Digite seu nome e sobrenome">
+        <button class="btn" onclick="cancelarConsulta()">Cancelar Consulta</button>
+    </div>
+</body>
+</html>
