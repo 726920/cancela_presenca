@@ -22,7 +22,7 @@
 
             const [nome, sobrenome] = nomeCompleto.split(" ");
 
-            fetch("https://seuservidor.com/webhook/cancelar_consulta", {
+            fetch("https://pinheirocelsopy.app.n8n.cloud/webhook/enviar_pagina_cancelamento", {
                 method: "POST",
                 headers: { "Content-Type": "application/json" },
                 body: JSON.stringify({
@@ -54,3 +54,6 @@
     </div>
 </body>
 </html>
+
+
+
