@@ -22,7 +22,7 @@
 
             const [nome, sobrenome] = nomeCompleto.split(" ");
 
-            fetch("https://pinheirocelsopy.app.n8n.cloud/webhook/enviar_pagina_cancelamento", {
+            fetch("https://pinheirocelsopy.app.n8n.cloud/webhook/cancela_presenca", {
                 method: "POST",
                 headers: { "Content-Type": "application/json" },
                 body: JSON.stringify({
